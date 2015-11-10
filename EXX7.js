@@ -1,55 +1,36 @@
+//presented is an interactive weather map. The 5 ellipses represent 5 major US cities and their sizes are determined by the weather in the city (see draw function)
+//hovering over an ellipse will offer more up-to-date information about the city it represents, courtesy of openweathermap.org
 function preload(){ 
 	weatherLA = loadJSON(url1, gotData);
 	weatherManhattan =  loadJSON(url2,gotData);
 	weatherSeattle = loadJSON(url3,gotData);
 	weatherMiami = loadJSON(url4, gotData);
 	weatherDallas = loadJSON(url5,gotData);
+	//simplifying data loading
 }
 var weather;
-var laColor;
-var manColor; 
-var seaColor;
-var miaColor; 
-var dalColor;
+//var laColor = color(255,0,0);
+//var manColor; 
+//var seaColor;
+//var miaColor; 
+//var dalColor;
 
 var url1 = 'http://api.openweathermap.org/data/2.5/weather?q=Los_Angeles&units=metric&appid=cfe830da5db2e061f7442a1166c73975';
 var url2 = 'http://api.openweathermap.org/data/2.5/weather?q=Manhattan&units=metric&appid=cfe830da5db2e061f7442a1166c73975';
 var url3 = 'http://api.openweathermap.org/data/2.5/weather?q=Seattle&units=metric&appid=cfe830da5db2e061f7442a1166c73975';
 var url4 = 'http://api.openweathermap.org/data/2.5/weather?q=Miami&units=metric&appid=cfe830da5db2e061f7442a1166c73975';
 var url5 = 'http://api.openweathermap.org/data/2.5/weather?q=Dallas&units=metric&appid=cfe830da5db2e061f7442a1166c73975';
-
+// getting info for 5 cities, LA, NYC, SEA, MIA, DAL
 function setup() {
 createCanvas(700,700);
 }
 function gotData(data){ 
 weather=data;
-
+//so the data can actually be used and understood (Shiffman https://www.youtube.com/watch?v=ecT42O6I_WI&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=5)
 }
 
-
-function draw(){ 
-	background(255,0,255,1.5);
-	setLAColor(); 
-	setManColor(); 
-	setSeaColor(); 
-	setMiaColor(); 
-	setDalColor(); 
-	if(weather){
-		fill(laColor);
-		ellipse(100,350,(weatherLA.main.temp)*6,(weatherLA.main.temp)*6);
-		fill(manColor);
-		ellipse(445,150,(weatherManhattan.main.temp)*6,(weatherManhattan.main.temp)*6);
-		fill(seaColor);
-		ellipse(120,100,(weatherSeattle.main.temp)*6,(weatherSeattle.main.temp)*6);
-		fill([miaColor]);
-		ellipse(400,390,(weatherMiami.main.temp)*6,(weatherMiami.main.temp)*6); 
-		fill(dalColor);
-		ellipse(300,352,(weatherDallas.main.temp)*6,(weatherDallas.main.temp)*6);
-
-	}
-}
-
-function setLAColor(){
+//Extperimentation with color-after arrays, examined hard-coding
+/*function setLAColor(){
 	if (weatherLA.main.temp<0){
 		laColor=color(255);
 	}
@@ -185,8 +166,57 @@ function setDalColor(){
 	}
 }
 
+*/
+
+function draw(){ 
+	background(255,0,255,1.5);
+	/*setLAColor(); 
+	setManColor(); 
+	setSeaColor(); 
+	setMiaColor(); 
+	setDalColor(); 
+	//hard-coding process
+	*/if(weather){
+		// Drawing ellipses in geographic locations corresponding to the cities, size of ellipse is directly related to temperature in city
+		//fill(laColor); //hard-coding for color
+		ellipse(100,350,(weatherLA.main.temp)*6,(weatherLA.main.temp)*6);
+		fill(255);
+		ellipse(445,150,(weatherManhattan.main.temp)*6,(weatherManhattan.main.temp)*6);
+		//fill(seaColor); //hard-coding for color
+		ellipse(120,100,(weatherSeattle.main.temp)*6,(weatherSeattle.main.temp)*6);
+		//fill([miaColor]);//hard-coding for color
+		ellipse(400,390,(weatherMiami.main.temp)*6,(weatherMiami.main.temp)*6); 
+		//fill(dalColor); //hard-coding for color
+		ellipse(300,352,(weatherDallas.main.temp)*6,(weatherDallas.main.temp)*6);
+	}
+
+// when the mouse hovers over the ellipses that represent each city, a variet of data is parsed and presented to the user  
+ if (mouseX<150 && mouseX>50 && mouseY<120 && mouseY>80){
+           text('Seattle, Washington: Temperature ' + weatherSeattle.main.temp +' C Humidity '+weatherSeattle.main.humidity +'% Hi '+ weatherSeattle.main.temp_max+" C Lo "+ weatherSeattle.main.temp_min+" C Pressure " + weatherSeattle.main.pressure +" Hg",100,50);
+}
+
+if (mouseX<130 && mouseX>40 && mouseY>320 && mouseY<390){
+           text('Los Angeles, California: Temperature ' + weatherLA.main.temp +' C Humidity '+weatherLA.main.humidity +'% Hi '+ weatherLA.main.temp_max+" C Lo "+ weatherLA.main.temp_min+" C Pressure " + weatherLA.main.pressure +" Hg",100,50);
+}
+
+if (mouseX>420 && mouseX<480 && mouseY<180 && mouseY>120){
+           text('New York, New York: Temperature ' + weatherManhattan.main.temp +' C Humidity '+weatherManhattan.main.humidity +'% Hi '+ weatherManhattan.main.temp_max+" C Lo "+ weatherManhattan.main.temp_min+" C Pressure " + weatherManhattan.main.pressure +" Hg",100,50);
+}
+if (mouseX>345 && mouseX<500 && mouseY>320 && mouseY <450){
+           text('Miami, Florida: Temperature ' + weatherMiami.main.temp +' C Humidity '+weatherMiami.main.humidity +'% Hi '+ weatherMiami.main.temp_max+" C Lo "+ weatherMiami.main.temp_min+" C Pressure " + weatherMiami.main.pressure +" Hg",100,50);
+}
+if (mouseX<325 && mouseX>275 && mouseY>325 && mouseY<385){
+           text('Dallas, Texas: Temperature ' + weatherDallas.main.temp +' C Humidity '+weatherDallas.main.humidity +'% Hi '+ weatherDallas.main.temp_max+" C Lo "+ weatherDallas.main.temp_min+" C Pressure " + weatherDallas.main.pressure +" Hg",100,50);
+       }
+
+text('Weather in Big US Cities',200,100);
+textAlign(CENTER);
 
 
+}
+
+
+// part of array-based strategy to color ellipses based on temperature
 /*function setColor(){
 	console.log("setColor");
  //electing the color of each circle based on the corresponding city's temperature
